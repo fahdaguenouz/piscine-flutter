@@ -53,6 +53,19 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+              ),
+              SizedBox(
+                width: 220,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/leaderboard");
+                  },
+                  child: const Text(
+                    "Leaderboard",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
               )
             ],
           ),
