@@ -1,10 +1,14 @@
-class circle{
+const double pi = 3.14;
+
+class Circle {
   double x;
   double y;
   double radius;
-  circle({required this.x, required this.y, required this.radius});
-  double get area => 3.14 * radius * radius;
-  double get perimeter => 2 * 3.14 * radius;
+
+  Circle(this.x, this.y, this.radius);
+
+  double get area => pi * radius * radius;
+  double get perimeter => 2 * pi * radius;
   double get rightMostCoordinate => x + radius;
   double get leftMostCoordinate => x - radius;
   double get highestCoordinate => y + radius;
