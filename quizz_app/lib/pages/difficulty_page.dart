@@ -5,10 +5,12 @@ import 'quizz_page.dart';
 
 class DifficultyPage extends StatelessWidget {
   final Category category;
+  final String username;
 
   const DifficultyPage({
     super.key,
     required this.category,
+    required this.username,
   });
 
   @override
@@ -98,6 +100,7 @@ class DifficultyPage extends StatelessWidget {
         builder: (_) => QuizPage(
           category: category,
           difficulty: difficulty,
+          username: username,
         ),
       ),
     );

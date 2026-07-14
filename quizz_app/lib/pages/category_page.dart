@@ -6,7 +6,12 @@ import '../widgets/category_card.dart';
 import 'difficulty_page.dart';
 
 class CategoryPage extends StatelessWidget {
-  const CategoryPage({super.key});
+  final String username;
+
+  const CategoryPage({
+    super.key,
+    required this.username,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class CategoryPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) =>
-                        DifficultyPage(category: category),
+                        DifficultyPage(category: category, username: username),
                   ),
                 );
               },
