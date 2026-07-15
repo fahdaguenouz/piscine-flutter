@@ -20,143 +20,186 @@ class ScorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double percentage = (correct / totalQuestions) * 100;
 
+    final bool passed = percentage >= 50;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Quiz Result"),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              Icon(
-                percentage >= 50
-                    ? Icons.emoji_events
-                    : Icons.sentiment_neutral,
-                size: 100,
-                color: Colors.amber,
-              ),
-
-              const SizedBox(height: 25),
-
-              Text(
-                username,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4A6CF7), Color(0xFF6C63FF)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Container(
+                padding: const EdgeInsets.all(28),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(28),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 18,
+                      color: Colors.black26,
+                      offset: Offset(0, 8),
+                    ),
+                  ],
                 ),
-              ),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 55,
+                      backgroundColor: passed
+                          ? Colors.amber.shade100
+                          : Colors.grey.shade200,
+                      child: Icon(
+                        passed ? Icons.emoji_events : Icons.sentiment_neutral,
+                        size: 65,
+                        color: passed ? Colors.amber : Colors.grey,
+                      ),
+                    ),
 
-              const SizedBox(height: 30),
+                    const SizedBox(height: 20),
 
-              Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Column(
-                    children: [
+                    Text(
+                      "Well Done, $username!",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-                      Text(
-                        "${percentage.toStringAsFixed(0)} %",
+                    const SizedBox(height: 10),
+
+                    Text(
+                      passed
+                          ? "Congratulations! You passed the quiz."
+                          : "Good effort! Keep practicing and you'll improve.",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        color: Colors.black54,
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: const Color(0xFFE8EDFF),
+                      child: Text(
+                        "${percentage.toStringAsFixed(0)}%",
                         style: const TextStyle(
-                          fontSize: 40,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
+                          color: Color(0xFF4A6CF7),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(height: 25),
+                    const SizedBox(height: 30),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Correct Answers",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            "$correct",
-                            style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                    Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-
-                      const Divider(),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Incorrect Answers",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            "$incorrect",
-                            style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            _scoreRow(
+                              Icons.check_circle,
+                              "Correct Answers",
+                              "$correct",
+                              Colors.green,
                             ),
-                          ),
-                        ],
-                      ),
 
-                      const Divider(),
+                            const Divider(height: 28),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Total Questions",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            "$totalQuestions",
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                            _scoreRow(
+                              Icons.cancel,
+                              "Incorrect Answers",
+                              "$incorrect",
+                              Colors.red,
                             ),
-                          ),
-                        ],
+
+                            const Divider(height: 28),
+
+                            _scoreRow(
+                              Icons.help_outline,
+                              "Total Questions",
+                              "$totalQuestions",
+                              Colors.blue,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+
+                    const SizedBox(height: 35),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 58,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.home),
+                        label: const Text(
+                          "Back To Home",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4A6CF7),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomePage()),
+                            (route) => false,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-              const SizedBox(height: 40),
-
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.home),
-                  label: const Text(
-                    "Back To Home",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const HomePage(),
-                      ),
-                      (route) => false,
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _scoreRow(IconData icon, String title, String value, Color color) {
+    return Row(
+      children: [
+        Icon(icon, color: color),
+
+        const SizedBox(width: 12),
+
+        Expanded(child: Text(title, style: const TextStyle(fontSize: 18))),
+
+        Text(
+          value,
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+      ],
     );
   }
 }

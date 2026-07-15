@@ -4,16 +4,24 @@ import '../services/leaderboard_service.dart';
 
 class LeaderboardPage extends StatelessWidget {
   const LeaderboardPage({super.key});
-
+Color placeColor(int index) {
+  switch (index) {
+    case 0:
+      return Colors.amber;
+    case 1:
+      return Colors.grey;
+    case 2:
+      return Colors.brown;
+    default:
+      return Colors.blue;
+  }
+}
   @override
   Widget build(BuildContext context) {
     final scores = LeaderboardService.instance.scores;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Leaderboard"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text("Leaderboard"), centerTitle: true),
       body: scores.isEmpty
           ? const Center(
               child: Text(
@@ -29,24 +37,40 @@ class LeaderboardPage extends StatelessWidget {
                 final entry = scores[index];
 
                 return Card(
-                  elevation: 3,
-                  margin: const EdgeInsets.only(bottom: 12),
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      child: Text("${index + 1}"),
+                      backgroundColor: placeColor(index),
+                      child: Text(
+                        "${index + 1}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                     title: Text(
                       entry.player,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
+                    ),
+                    subtitle: Text(
+                      index == 0
+                          ? "🏆 Champion"
+                          : index == 1
+                          ? "🥈 Runner-up"
+                          : index == 2
+                          ? "🥉 Third Place"
+                          : "Player",
                     ),
                     trailing: Text(
                       "${entry.score}",
                       style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
                         color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
                     ),
                   ),
